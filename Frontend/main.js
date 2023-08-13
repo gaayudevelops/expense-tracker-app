@@ -1,22 +1,20 @@
-var form=document.getElementById('signup-form');
+var form=document.getElementById('login-form');
 
 form.addEventListener('submit',SaveToBackend);
 
 async function SaveToBackend(event){
     event.preventDefault();
 
-    const name = event.target.username.value;
     const email = event.target.useremail.value;
     const password = event.target.password.value;
 
     const obj = {
-       name,
        email,
        password
     }
 
     try {
-        const response = await axios.post("http://localhost:3000/user/signup", obj);
+        const response = await axios.post("http://localhost:3000/user/login", obj);
         console.log(response.data);
        
     } catch (error) {
