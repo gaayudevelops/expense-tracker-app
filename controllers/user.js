@@ -1,26 +1,34 @@
 const User= require('../models/user');
 
 
-exports.postSignUp = async (req,res,next) => {
+exports.postLogin = async (req,res,next) => {
 
     try{
-        const name=req.body.name;
         const email=req.body.email;
         const password=req.body.password;
 
-        if(!name ||!email||!password){
+        if(!email||!password){
             return res.status(400).json({error: "Fields are not filled"});
         }
 
-        const data = await User.create({name:name, email:email, password:password});
-        res.status(201).json({message:"User Successfully Created"});
+        const user = await User.findAll({where:{email:email}});
+
+        if(user.length===0){ //if no such user exists in the db
+            return res.status(404).json({error: "User not found"});
+        }
+        const userobj= user[0];
+        const userpassword =userobj.dataValues.password;
+        if(password!= userpassword){ //if user exist but password is wrong
+            return res.status(401).json({error: "User not authorized"});
+        }
+        else{ 
+            return res.status(200).json({message: "User login sucessful"});
+        }
 
     } catch(err){
-        res.status(500).json({error:"User Already Exist"});
+        res.status(500).json({error:err});
     
     }
 }
-
-
 
 
