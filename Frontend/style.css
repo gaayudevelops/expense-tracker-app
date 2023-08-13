@@ -2,7 +2,7 @@ body{
     padding:0;
     margin: 0;
     font-family: sans-serif;
-    background-image: url("./background.jpg");
+    background-image: url("../background.jpg");
     background-size: cover;
     background-position:auto;
    
@@ -72,4 +72,94 @@ img{
     width:12rem;
     margin: -10px 76px;
   
+}
+
+.expense-detail-form{
+    width:20rem;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+    background: white;
+    padding:20px;
+    margin:6% auto 0;
+    /* text-align: center; */
+    
+}
+
+/* .expense-icon{
+    width:18rem;
+    margin: -30px 70px;
+} */
+
+
+.expense-detail-form h1{
+    color:#3489aa;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.expense-hr{
+    margin-top: -10px;
+    margin-bottom:40px;
+    width:80%;
+}
+.expense-detail-form label{
+  text-align: left;
+}
+
+.expnse-btn{
+    color:#fff;
+    width:90%;
+    padding:10px;
+    border-radius:5px;
+    font-size: 15px;
+    margin:20px 10px;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    background-color: #1c8adb
+
+}
+
+.item-list ul{
+   list-style-type:none;
+   
+}
+
+.item-list li{
+    list-style-type:none;
+    padding:10px;
+    width:35rem;
+    margin: 2rem 45rem;
+    font-size: 20px;
+    font-family: 'Segoe UI';
+    background-color: #fff;
+
+   
+    /* display:block;
+    margin: 1rem 40rem;
+    font-size: 30px;
+    font-family: 'Segoe UI'; */
+}
+
+.del-btn {
+    
+    padding: 0;
+    margin: 0 1rem ;
+    width:15%;
+    height: 2rem;
+    text-decoration: none;
+    font-weight: bold;
+    font: inherit;
+    font-size: 15px;
+    border: 2px solid #028d8d;
+    color: white;
+    background: #f04d4d;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.del-btn:hover,
+.del-btn:active {
+  background-color: rgb(228, 38, 38);
+  color: #000000;
 }
