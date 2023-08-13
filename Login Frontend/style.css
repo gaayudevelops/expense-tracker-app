@@ -1,0 +1,75 @@
+body{
+    padding:0;
+    margin: 0;
+    font-family: sans-serif;
+    background-image: url("./background.jpg");
+    background-size: cover;
+    background-position:auto;
+   
+}
+
+.log-in-form{
+    width:20rem;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.521);
+    padding:20px;
+    margin:6% auto 0;
+    /* text-align: center; */
+    
+}
+
+.log-in-form h1{
+    color:#5e5f5f;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.log-in-form label{
+  text-align: left;
+}
+
+.input-box{
+    padding:10px;
+    margin:10px 0;
+    width:90%;
+    border: 1px solid #999;
+    border-radius: 5px;
+
+}
+.logn-btn{
+    color:#fff;
+    width:90%;
+    padding:10px;
+    border-radius:5px;
+    font-size: 15px;
+    margin:10px;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    background-color: #1c8adb
+
+}
+
+.forgot-psswrd{
+    margin:0 0 10px 13rem;
+    font-size: 13px;
+}
+
+.do-not-have-account{
+    text-align: center;
+}
+
+a{
+text-decoration: none;
+}
+
+hr{
+    margin-top: 10px;
+    width:80%;
+}
+
+img{
+    width:12rem;
+    margin: -10px 76px;
+  
+}
