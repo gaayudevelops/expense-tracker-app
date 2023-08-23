@@ -13,11 +13,18 @@ const userRoutes = require('./routes/user');
 
 const expenseRoutes = require('./routes/expense');
 
+const User = require('./models/user');
+
+const Expense = require('./models/expense');
+
 app.use(express.json());
 
 app.use('/user', userRoutes);
 
 app.use('/expense', expenseRoutes);
+
+User.hasMany(Expense);
+Expense.belongsTo(User);
 
 sequelize.sync()
 .then(app.listen(3000))

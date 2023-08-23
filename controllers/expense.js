@@ -4,11 +4,11 @@ const Expense= require('../models/expense');
 exports.postAddExpense = async (req,res,next) => {
 
     try{
+        const id = req.user.id;   //extracting the id from the global object req.user
         const description=req.body.description;
         const category=req.body.category;
         const amount=req.body.amount;
-
-        const data= await Expense.create({ description:description, category:category, amount:amount});
+        const data= await Expense.create({ description:description, category:category, amount:amount, userId:id});
         res.status(201).json({newExpenseDetail: data});
     } catch(err){
         res.status(500).json({
@@ -21,10 +21,11 @@ exports.postAddExpense = async (req,res,next) => {
 exports.getExpenses = async (req,res,next)=>{
 
     try{
-        const expenses = await Expense.findAll();
+        const id = req.user.id;   //extracting the id from the global object req.user
+        const expenses = await Expense.findAll({where : {userId:id}});  
         res.status(201).json({allExpenses : expenses});
     } catch(err){
-        console.log('GET User is failing', JSON.stringify(err));
+        console.log('GET Expense is failing', JSON.stringify(err));
         res.status(500).json({error:err})
     }
 }

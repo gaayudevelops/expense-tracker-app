@@ -13,7 +13,8 @@ async function SaveToBackend(event) {
         amount
     }
     try {
-        const response = await axios.post("http://localhost:3000/expense/add-expense", obj);
+        const token=localStorage.getItem('token'); 
+        const response = await axios.post("http://localhost:3000/expense/add-expense", obj,{ headers:{"Authorization":token} })
         const data = response.data.newExpenseDetail;
         showExpenseOnScreen(data)
 
@@ -25,7 +26,10 @@ async function SaveToBackend(event) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    axios.get("http://localhost:3000/expense/get-expenses")
+    const token=localStorage.getItem('token'); 
+    axios.get("http://localhost:3000/expense/get-expenses",{
+        headers:{"Authorization":token} //setting the authorisation in response headers as the tokrn encrypted
+    })
         .then((response) => {
             for (var i = 0; i < response.data.allExpenses.length; i++) {
                 showExpenseOnScreen(response.data.allExpenses[i])
@@ -62,3 +66,4 @@ function showExpenseOnScreen(obj) {
     parentElem.appendChild(childElem);
 
 }
+

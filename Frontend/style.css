@@ -2,16 +2,69 @@ body{
     padding:0;
     margin: 0;
     font-family: sans-serif;
-    background-image: url("../background.jpg");
+    background-image: url("./background.jpg");
     background-size: cover;
     background-position:auto;
    
+}
+.sign-up-form{
+    width:20rem;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+    background: white;
+    padding:20px;
+    margin:6% auto 0;
+    /* text-align: center; */
+    
+}
+
+.sign-up-form h1{
+    color:#3489aa;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sign-up-form label{
+  text-align: left;
+}
+
+.sign-btn{
+    color:#fff;
+    width:90%;
+    padding:10px;
+    border-radius:5px;
+    font-size: 15px;
+    margin:10px;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    background-color: #1c8adb;
+
+}
+.sign-btn:hover,
+.sign-btn:active {
+  background-color: rgb(8, 123, 168);
+  color: #ffffff;
+}
+
+.already-have-accnt{
+    text-align: center;
+}
+
+.signup-hr{
+    margin-top: 10px;
+    width:80%;
+}
+
+.signup-icon{
+    width:12rem;
+    margin: -10px 76px;
+  
 }
 
 .log-in-form{
     width:20rem;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
-    background: rgba(255, 255, 255, 0.521);
+    background: white;
     padding:20px;
     margin:6% auto 0;
     /* text-align: center; */
@@ -19,23 +72,15 @@ body{
 }
 
 .log-in-form h1{
-    color:#5e5f5f;
+    color:#3489aa;
     margin-bottom: 30px;
     text-align: center;
 }
 
 .log-in-form label{
-  text-align: left;
+    text-align: left;
 }
 
-.input-box{
-    padding:10px;
-    margin:10px 0;
-    width:90%;
-    border: 1px solid #999;
-    border-radius: 5px;
-
-}
 .logn-btn{
     color:#fff;
     width:90%;
@@ -49,9 +94,14 @@ body{
     background-color: #1c8adb
 
 }
+.logn-btn:hover,
+.logn-btn:active {
+  background-color: rgb(8, 123, 168);
+  color: #ffffff;
+}
 
 .forgot-psswrd{
-    margin:0 0 10px 13rem;
+    margin:0 0 10px;
     font-size: 13px;
 }
 
@@ -63,19 +113,27 @@ a{
 text-decoration: none;
 }
 
-hr{
+.login-hr{
     margin-top: 10px;
     width:80%;
 }
 
-img{
+.login-icon{
     width:12rem;
     margin: -10px 76px;
-  
+}
+
+.input-box{
+    padding:10px;
+    margin:10px 0;
+    width:90%;
+    border: 1px solid #999;
+    border-radius: 5px;
+
 }
 
 .expense-detail-form{
-    width:20rem;
+    width:40rem;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
     background: white;
     padding:20px;
@@ -84,10 +142,10 @@ img{
     
 }
 
-/* .expense-icon{
+.expense-icon{
     width:18rem;
-    margin: -30px 70px;
-} */
+    margin: -30px 14rem;
+}
 
 
 .expense-detail-form h1{
@@ -126,13 +184,13 @@ img{
 }
 
 .item-list li{
-    list-style-type:none;
-    padding:10px;
-    width:35rem;
-    margin: 2rem 45rem;
+    list-style-type:circle;
+    padding:5px;
+    /* width:35rem;
+    margin: 2rem 45rem; */
     font-size: 20px;
     font-family: 'Segoe UI';
-    background-color: #fff;
+   
 
    
     /* display:block;
@@ -163,3 +221,4 @@ img{
   background-color: rgb(228, 38, 38);
   color: #000000;
 }
+

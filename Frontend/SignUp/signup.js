@@ -1,25 +1,24 @@
-var form=document.getElementById('login-form');
+var form=document.getElementById('signup-form');
 
 form.addEventListener('submit',SaveToBackend);
 
 async function SaveToBackend(event){
     event.preventDefault();
 
+    const name = event.target.username.value;
     const email = event.target.useremail.value;
     const password = event.target.password.value;
 
-    const loginDetails = {
+    const obj = {
+       name,
        email,
        password
     }
 
     try {
-        const response = await axios.post("http://localhost:3000/user/login", loginDetails);
-        alert(response.data.message);
-        console.log(response.data);
-        localStorage.setItem('token', response.data.token);
-
-        window.location.href="../ExpenseTracker/index.html"
+        const response = await axios.post("http://localhost:3000/user/signup", obj);
+        window.location.href="../Login/index.html"
+        
        
     } catch (error) {
         document.body.innerHTML+=`<h2>${error}</h2>`;

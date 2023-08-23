@@ -2,6 +2,39 @@ const User= require('../models/user');
 
 const bcrypt = require('bcrypt');
 
+const jwt = require('jsonwebtoken');
+
+exports.postSignUp = async (req,res,next) => {
+
+    try{
+        const name=req.body.name;
+        const email=req.body.email;
+        const password=req.body.password;
+
+        if(!name ||!email||!password){
+            return res.status(400).json({error: "Fields are not filled"});
+        }
+        const saltrounds=10;
+        bcrypt.hash(password, saltrounds,async (err, hash) => {
+        console.log(err);
+        await User.create({name:name, email:email, password:hash});
+        res.status(201).json({message:"User Successfully Created"});
+
+        })    
+    } catch(err){
+        res.status(500).json({error:"User Already Exist"});
+    
+    }
+}
+
+
+function generatetokenid(id,name){   //function to generate  secret token for the id and name so that the user 
+    //can access and manage only his own expenses and not of other users
+
+    return jwt.sign({ userId:id, name:name}, 'thesecretkeyweassign') //assigning the token for the users with a secret key
+}
+
+
 exports.postLogin = async (req,res,next) => {
 
     try{
@@ -20,7 +53,8 @@ exports.postLogin = async (req,res,next) => {
                     throw new Error('Something is wrong');
                 }
                 if(result === true){ //if bcrypt.compare is success with correct password  
-                    res.status(200).json({success: true, message:"User logged in Successfully"});
+                    res.status(200).json({success: true, message:"User logged in Successfully", token: generatetokenid(user[0].id, user[0].name)});
+                    //token is generated for the user's name and id with a secret key
                 }
                 else{ //if bcrypt.compare is success with incorrect password  
                     return res.status(400).json({success: false, message:"Password is incorrect"})
