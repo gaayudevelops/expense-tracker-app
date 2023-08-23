@@ -6,7 +6,6 @@ exports.authenticate =(req,res,next) => {
 
     try{
         const token=req.header('Authorization'); //extracting the token from the request headers
-       console.log(token);
         const user = jwt.verify(token, 'thesecretkeyweassign');  //decryption of the generated token 
         User.findByPk(user.userId).then(user => {  //finding the user with the decrypted id 
 

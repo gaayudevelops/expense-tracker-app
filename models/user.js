@@ -21,7 +21,9 @@ const User = sequelize.define('user', {
  password: {
     type: Sequelize.CHAR,
     autoNull: false
-  }
+  },
+
+  ispremiumuser: Sequelize.STRING, 
 
 });
 

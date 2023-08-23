@@ -67,3 +67,36 @@ function showExpenseOnScreen(obj) {
 
 }
 
+document.getElementById('rzp-btn').onclick = async function(event) {
+
+    const token=localStorage.getItem('token');
+    const response = await axios.get("http://localhost:3000/purchase/premium-membership", { headers:{"Authorization":token} })
+    const options = {
+        "key": response.data.key_id,
+        "order_id":response.data.order.id,
+        "handler":async function (response){
+            await axios.post("http://localhost:3000/purchase/updatetransactionstatus",{
+                order_id:options.order_id,
+                payment_id:response.razorpay_payment_id
+            }, {headers:{"Authorization":token}});
+            
+           alert("You are a Premuim user now!")   
+        }
+    };
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+    event.preventDefault();
+
+    rzp1.on('payment.failed', async function (response){
+        await axios.post("http://localhost:3000/purchase/updatetransactionstatus",{
+            order_id:options.order_id,
+            payment_id:response.razorpay_payment_id // if transaction is failed no payment key is generated
+        }, {headers:{"Authorization":token}})
+
+        alert('Transaction FAILED!')
+    });
+}
+
+
+    
+
