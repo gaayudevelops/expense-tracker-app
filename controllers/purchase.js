@@ -1,5 +1,7 @@
 const Razorpay = require('razorpay');
 
+const jwt = require('jsonwebtoken');
+
 require('dotenv').config()
 
 const Order = require('../models/orders');
@@ -32,6 +34,10 @@ exports.getPurchasePremium = async (req,res,next) => {
     }
 }
 
+const generatetokenid = (id,name,ispremiumuser) => {  
+    
+    return jwt.sign({ userId:id, name:name, ispremiumuser:ispremiumuser}, 'thesecretkeyweassign') 
+}
 
  exports. postUpdateTransactionStatus= async (req,res,next) => {
 
@@ -41,7 +47,7 @@ exports.getPurchasePremium = async (req,res,next) => {
         if(!payment_id){   //if transaction has failed, there is no payment id
             const order = await Order.findOne({where: {orderid:order_id}});
             const promise1 = order.update({status: 'FAILED'});
-            const promise2 = req.user.update({ispremiumuser: 'false'});
+            const promise2 = req.user.update({ispremiumuser: false});
     
             Promise.all([promise1, promise2]).then(() =>{
                 return res.status(202).json({success: false, message: "Transaction Failed"})
@@ -50,10 +56,11 @@ exports.getPurchasePremium = async (req,res,next) => {
         }else{
             const order = await Order.findOne({where: {orderid:order_id}});
             const promise1 = order.update({paymentid: payment_id, status: 'SUCCESSFUL'});
-            const promise2 = req.user.update({ispremiumuser: 'true'});
+            const promise2 = req.user.update({ispremiumuser: true});
     
             Promise.all([promise1, promise2]).then(() =>{
-                return res.status(202).json({success: true, message: "Transaction Successful"})
+                console.log(req.user)
+                return res.status(202).json({success: true, message: "Transaction Successful", token: generatetokenid( req.user.id,undefined,req.user.ispremiumuser)})
             }).catch((err) => {throw new Error(err)});
         }
        

@@ -21,7 +21,7 @@ const Expense = sequelize.define('expense', {
   },
 
  amount: {
-    type: Sequelize.DECIMAL,
+    type: Sequelize.INTEGER.UNSIGNED,
     autoNull: false
   }
 

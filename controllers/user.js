@@ -27,11 +27,10 @@ exports.postSignUp = async (req,res,next) => {
     }
 }
 
-
-function generatetokenid(id,name){   //function to generate  secret token for the id and name so that the user 
+function generatetokenid (id,name,ispremiumuser) {   //function to generate  secret token for the id and name so that the user 
     //can access and manage only his own expenses and not of other users
 
-    return jwt.sign({ userId:id, name:name}, 'thesecretkeyweassign') //assigning the token for the users with a secret key
+    return jwt.sign({ userId:id, name:name, ispremiumuser:ispremiumuser}, 'thesecretkeyweassign') //assigning the token for the users with a secret key
 }
 
 
@@ -53,7 +52,7 @@ exports.postLogin = async (req,res,next) => {
                     throw new Error('Something is wrong');
                 }
                 if(result === true){ //if bcrypt.compare is success with correct password  
-                    res.status(200).json({success: true, message:"User logged in Successfully", token: generatetokenid(user[0].id, user[0].name)});
+                    res.status(200).json({success: true, message:"User logged in Successfully", token: generatetokenid(user[0].id, user[0].name, user[0].ispremiumuser)});
                     //token is generated for the user's name and id with a secret key
                 }
                 else{ //if bcrypt.compare is success with incorrect password  
@@ -68,5 +67,7 @@ exports.postLogin = async (req,res,next) => {
     }
 
 }
+
+
 
 

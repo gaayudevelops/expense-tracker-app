@@ -23,7 +23,7 @@ const User = sequelize.define('user', {
     autoNull: false
   },
 
-  ispremiumuser: Sequelize.STRING, 
+  ispremiumuser: Sequelize.BOOLEAN, 
 
 });
 
