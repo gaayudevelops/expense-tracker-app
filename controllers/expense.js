@@ -1,5 +1,6 @@
 const Expense= require('../models/expense');
 
+const User= require('../models/user');
 
 exports.postAddExpense = async (req,res,next) => {
 
@@ -9,6 +10,8 @@ exports.postAddExpense = async (req,res,next) => {
         const category=req.body.category;
         const amount=req.body.amount;
         const data= await Expense.create({ description:description, category:category, amount:amount, userId:id});
+        const totalExpense = Number(req.user.totalExpense) + Number(amount);
+        User.update({totalExpense : totalExpense}, {where : {id:req.user.id}})
         res.status(201).json({newExpenseDetail: data});
     } catch(err){
         res.status(500).json({
@@ -21,7 +24,9 @@ exports.postAddExpense = async (req,res,next) => {
 exports.getExpenses = async (req,res,next)=>{
 
     try{
+        console.log(req.user)
         const id = req.user.id;   //extracting the id from the global object req.user
+        console.log(id);
         const expenses = await Expense.findAll({where : {userId:id}});  
         res.status(201).json({allExpenses : expenses});
     } catch(err){

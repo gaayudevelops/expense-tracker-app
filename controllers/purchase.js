@@ -35,6 +35,7 @@ exports.getPurchasePremium = async (req,res,next) => {
 }
 
 const generatetokenid = (id,name,ispremiumuser) => {   
+    console.log('token regenerate')
     return jwt.sign({ userId:id, name:name, ispremiumuser:ispremiumuser}, 'thesecretkeyweassign') 
 }
 

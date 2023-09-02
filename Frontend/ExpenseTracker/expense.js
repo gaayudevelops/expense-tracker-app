@@ -61,7 +61,7 @@ function showLeaderboard(){
             leaderboardElem.innerHTML += '<h1> Leader Board </h1>'
 
             userLeaderBoardArray.data.forEach ((userDetails) => {
-            leaderboardElem.innerHTML += `<li>Name : ${userDetails.name} Total Expense : ${userDetails.total_cost}`;
+            leaderboardElem.innerHTML += `<li>Name : ${userDetails.name} Total Expense : ${userDetails.totalExpense || 0}`;
             })
         }catch(err){
            console.log(err);
@@ -76,9 +76,9 @@ function showLeaderboard(){
 window.addEventListener("DOMContentLoaded", () => {
     const token=localStorage.getItem('token'); 
     const decodedtoken = parseJwt(token);
-    // console.log(decodedtoken);
+    console.log(decodedtoken);
     const ispremiumuser = decodedtoken.ispremiumuser;
-    // console.log(ispremiumuser);
+    console.log(ispremiumuser);
 
     if(ispremiumuser){
         showLeaderboard();
@@ -139,7 +139,7 @@ document.getElementById('rzp-btn').onclick = async function(event) {
                 order_id:options.order_id,
                 payment_id:response.razorpay_payment_id
             }, {headers:{"Authorization":token}});
-
+            console.log(res.data);
            localStorage.setItem('token', res.data.token);
            alert("You are a Premuim user now!");
            showpremiumusermessage();
