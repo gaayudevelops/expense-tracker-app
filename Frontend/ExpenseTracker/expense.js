@@ -140,15 +140,11 @@ document.getElementById('rzp-btn').onclick = async function(event) {
                 payment_id:response.razorpay_payment_id
             }, {headers:{"Authorization":token}});
 
-      
-           alert("You are a Premuim user now!");
            localStorage.setItem('token', res.data.token);
+           alert("You are a Premuim user now!");
            showpremiumusermessage();
            showLeaderboard();
           
-           
-
-
         }
     };
     const rzp1 = new Razorpay(options);

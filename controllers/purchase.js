@@ -34,8 +34,7 @@ exports.getPurchasePremium = async (req,res,next) => {
     }
 }
 
-const generatetokenid = (id,name,ispremiumuser) => {  
-    
+const generatetokenid = (id,name,ispremiumuser) => {   
     return jwt.sign({ userId:id, name:name, ispremiumuser:ispremiumuser}, 'thesecretkeyweassign') 
 }
 
@@ -59,7 +58,6 @@ const generatetokenid = (id,name,ispremiumuser) => {
             const promise2 = req.user.update({ispremiumuser: true});
     
             Promise.all([promise1, promise2]).then(() =>{
-                console.log(req.user)
                 return res.status(202).json({success: true, message: "Transaction Successful", token: generatetokenid( req.user.id,undefined,req.user.ispremiumuser)})
             }).catch((err) => {throw new Error(err)});
         }
