@@ -16,7 +16,7 @@ exports.getPurchasePremium = async (req,res,next) => {
       
         const amount = 2500; //amount is written in paise
         await rzp.orders.create({amount, currency:"INR"}, (err,order) =>{ // rzp is an object of the Razorpay class with orders as one of its key
-            console.log(order)// an 'order' object with razorpay attributes is created with its own id and given input value for amount and currency 
+            // console.log(order)// an 'order' object with razorpay attributes is created with its own id and given input value for amount and currency 
             if (err){
                 throw new Error (JSON.stringify(err))
             }
@@ -35,7 +35,7 @@ exports.getPurchasePremium = async (req,res,next) => {
 }
 
 const generatetokenid = (id,name,ispremiumuser) => {   
-    console.log('token regenerate')
+    
     return jwt.sign({ userId:id, name:name, ispremiumuser:ispremiumuser}, 'thesecretkeyweassign') 
 }
 

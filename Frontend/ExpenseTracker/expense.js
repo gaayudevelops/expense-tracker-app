@@ -111,8 +111,10 @@ function showExpenseOnScreen(obj) {
     deleteButton.value = 'Delete';
     deleteButton.onclick = () => {
 
+        const token=localStorage.getItem('token');
         parentElem.removeChild(childElem);
-        axios.delete(`http://localhost:3000/expense/delete-expense/${obj.id}`)
+
+        axios.delete(`http://localhost:3000/expense/delete-expense/${obj.id}`,{ headers:{"Authorization":token} })
             .then((response) => { })
             .catch((err) => {
                 document.body.innerHTML += "<h2>Something went Wrong</h2>";
