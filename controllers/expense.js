@@ -34,19 +34,35 @@ exports.postAddExpense = async (req, res, next) => {
 
 }
 
-
-
 exports.getExpenses = async (req, res, next) => {
 
     try {
-        // console.log(req.user)
-        const id = req.user.id;   //extracting the id from the global object req.user
-        // console.log(id);
-        const expenses = await Expense.findAll({ where: { userId: id } });
-        res.status(201).json({ allExpenses: expenses });
+    
+        const page = +req.query.page || 1;
+        const pageSize = +req.query.pageSize || 0;
+        const id = req.user.id; 
+        const totalItems = await Expense.count({where : {userId: id}});
+
+        const expenses = await Expense.findAll({
+            where: { userId: id },
+            offset: (page - 1) * pageSize,
+            limit: pageSize
+        });
+        
+
+        res.status(200).json({
+            allExpenses: expenses,
+            currentPage : page,
+            hasNextPage: pageSize * page < totalItems,
+            nextPage: page + 1,
+            hasPreviousPage: page > 1,
+            previousPage: page - 1,
+            lastPage: Math.ceil(totalItems / pageSize)
+        });
+
     } catch (err) {
         console.log('GET Expense is failing', JSON.stringify(err));
-        res.status(500).json({ error: err })
+        res.status(401).json({ error: err })
     }
 }
 
@@ -64,7 +80,7 @@ function uploadToS3(data, filename) {
         ACL: 'public-read'
     }
 
-    return new Promise( (resolve,reject) => {
+    return new Promise((resolve, reject) => {
 
         s3bucket.upload(params, (err, s3response) => {
             if (err) {
@@ -75,7 +91,7 @@ function uploadToS3(data, filename) {
                 resolve(s3response.Location);
             }
         })
-    })  
+    })
 
 }
 
@@ -87,18 +103,18 @@ exports.downloadExpenses = async (req, res, next) => {
         }
         const expenses = await req.user.getExpenses();
         const stringifiedExpenses = JSON.stringify(expenses);
-        
+
         const userId = req.user.id;
         const filename = `Expense${userId}/${new Date()}.txt`;
         const filenamesplit = filename.split('/');
         const downloadFileName = filenamesplit[1];
         const fileURL = await uploadToS3(stringifiedExpenses, filename);
-        const createDownloadfiles = await Downloadedfiles.create({fileURL:fileURL, userId:userId, fileName:downloadFileName});
-        const prevDownloadedFiles = await Downloadedfiles.findAll({where:{userId:userId}});
-        
-        res.status(200).json({fileURL,prevDownloadedFiles,Success:true});
+        const createDownloadfiles = await Downloadedfiles.create({ fileURL: fileURL, userId: userId, fileName: downloadFileName });
+        const prevDownloadedFiles = await Downloadedfiles.findAll({ where: { userId: userId } });
 
-    } catch (err){
+        res.status(200).json({ fileURL, prevDownloadedFiles, Success: true });
+
+    } catch (err) {
         console.log('Download Expense is failing', JSON.stringify(err));
         res.status(500).json({ error: err })
     }

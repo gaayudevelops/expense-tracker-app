@@ -20,6 +20,10 @@
             <div class="ranks" id ="ranks"></div>
         </div>
         <button class="premium-btn" id ="rzp-btn" type="submit">Buy Premium</button>
+        <button onclick="download()" id="downloadexpense">Download File</button>
+        <div class ="downloadfileUrls" id = "fileurl">
+            <div class="ranks" id ="ranks"></div>
+        </div>
         <div class="expense-detail-form">
             <img class ="expense-icon" src="expense-icon.png">
             <h1>Add Expense Detail</h1>
@@ -40,11 +44,32 @@
                 <input class="input-box" type="number" step="0.01" id="amnt" name="amount" placeholder="Enter amount">
                 <button class="expnse-btn" type="submit">Add</button>
             </form>
-            <ul class="item-list" id="items"></ul>
+            <!-- <ul class="item-list" id="items"></ul> -->
         </div>
-        
-        
-      
+        <div class ="downloadfiles" id = "filesdownloaded"></div> 
+        <div>
+            <table class ="paginationexpenses" id ="pagination-id">
+                <h1>Expenses to Display</h1>
+                <label for ="expensepreference">Select the Number of Expenses to display:</label>
+                <select id = "expensepreference">
+                    <option value = "0">0</option>
+                    <option value = "2">2</option>
+                    <option value = "3">3</option>
+                    <option value = "5">5</option>
+                    <option value = "10">10</option>
+                    <option value = "15">15</option>
+                    <option value = "20">20</option>
+                    <option value = "30">30</option>
+                </select>
+                <ul class ="itemspagination" id ="items1"></ul>
+                <div id = "pagination"></div>
+            </table>
+        </div>
+        <div>
+            <table class = "paginationexpenses">
+                <ul class ="itemspagination" id ="items2"></ul>
+            </table>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
