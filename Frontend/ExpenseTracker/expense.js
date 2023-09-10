@@ -16,22 +16,165 @@ async function SaveToBackend(event) {
         const token = localStorage.getItem('token');
         const response = await axios.post("http://localhost:3000/expense/add-expense", obj, { headers: { "Authorization": token } })
         const data = response.data.newExpenseDetail;
-        showExpense(data)
-
-
+        showExpense(data);
     } catch (error) {
         document.body.innerHTML += `<h2>${error}</h2>`;
         console.log(error);
     }
 }
 
-function showpremiumusermessage() {
-    document.getElementById('rzp-btn').style.visibility = "hidden";
-    document.getElementById('prm-msg').innerHTML = "Premium User";
-    // document.getElementById('prm-msg').style.color= "blue";
-    // document.getElementById('prm-msg').style.fontSize = "20px";
-    // document.getElementById('prm-msg').style.margin = " 2rem 0 0 112rem";
+let expensestoDisplay = document.getElementById('expensepreference');
+expensestoDisplay.addEventListener('change', function () {
+
+    const selectedValue = expensestoDisplay.value;
+    saveExpensepreference(selectedValue);
+
+});
+
+function saveExpensepreference(expensepref) {
+
+    localStorage.setItem('expensePreference', expensepref);
+    showExpense(1);
 }
+
+async function showExpense(page) {
+
+    try{
+        const parentElem = document.getElementById('table-expenses')
+        parentElem.innerHTML=' ';
+        const table = document.createElement('table');
+        table.className = "expense-table";
+    
+    
+        const headerRow = document.createElement('tr');
+        headerRow.className = "expense-table-header";
+    
+        const header1 = document.createElement('th');
+        header1 .className = "expense-table-header-value";
+        header1 .innerHTML = "Description";
+    
+        const header2 = document.createElement('th');
+        header2.className = "expense-table-header-value";
+        header2.innerHTML = "Category";
+    
+        const header3 = document.createElement('th');
+        header3.className = "expense-table-header-value";
+        header3.innerHTML = "Amount";
+    
+        const header4 = document.createElement('th');
+        header4.className = "expense-table-header-value";
+        header4.innerHTML = "Action";
+    
+        headerRow.appendChild(header1);
+        headerRow.appendChild(header2);
+        headerRow.appendChild(header3);
+        headerRow.appendChild(header4);
+        
+        table.appendChild(headerRow);
+        console.log(table);
+    
+        const token = localStorage.getItem('token');
+        const expensepref = localStorage.getItem('expensePreference');
+        const pageSize = expensepref;
+
+        console.log(pageSize);
+        console.log(expensepref);
+        console.log(parseInt(expensepref))
+       
+        if (!page || page < 1) {
+            page = 1;
+        }
+    
+        const response = await axios.get(`http://localhost:3000/expense/getpageexpenses?page=${page}&pageSize=${pageSize}`, 
+            { headers: { "Authorization": token }
+        });
+        const { currentPage, hasNextPage, nextPage, hasPreviousPage, previousPage, lastPage } = response.data;
+        console.log(parentElem);
+
+        response.data.allExpenses.forEach((expData) => {
+
+            const dataRow = document.createElement('tr');
+            dataRow.className = "expense-table-data-value";
+
+            const data1 = document.createElement('td');
+            data1.id = "table-data1";
+            data1.innerHTML = `${expData.description}`
+
+            const data2 = document.createElement('td');
+            data2.id = "table-data2";
+            data2.innerHTML = `${expData.category}`;
+
+            const data3 = document.createElement('td');
+            data3.id = "table-data3";
+            data3.innerHTML = `${expData.amount}`;
+
+            const deleteButton = document.createElement('input');
+            deleteButton.className = "del-btn";
+            deleteButton.type = 'button';
+            deleteButton.value = 'Delete';
+
+            deleteButton.onclick = async () => {
+                try{
+                const token = localStorage.getItem('token');
+                table.removeChild(dataTablerowElem);
+                const res = await axios.delete(`http://localhost:3000/expense/delete-expense/${expData.id}`, {headers: { "Authorization": token } });
+                }catch (err) {
+                    document.body.innerHTML += "<h2>Something went Wrong</h2>";
+                    console.log(err);
+                }       
+            }
+
+            dataRow.appendChild(data1);
+            dataRow.appendChild(data2);
+            dataRow.appendChild(data3);
+            dataRow.appendChild(deleteButton);
+
+            table.appendChild(dataRow);
+            parentElem.appendChild(table);
+            console.log(parentElem);
+
+            showPagination(currentPage,hasNextPage, nextPage, hasPreviousPage, previousPage);
+        });
+
+    }catch (err) {
+     console.log(err);
+    }   
+       
+}
+
+function showPagination(currentPage,hasNextPage, nextPage, hasPreviousPage, previousPage) {
+
+    const button = document.getElementById('page-button');
+    if (!hasPreviousPage){
+        button.innerHTML= `${currentPage} <button onclick="showExpense(${nextPage})"> > </button>`
+    }
+
+    else if (hasNextPage && hasPreviousPage) {
+
+        button.innerHTML= `<button onclick="showExpense(${previousPage})"> <  </button> ${currentPage} <button onclick="showExpense(${nextPage})"> > </button>`;
+    }
+
+     else if (hasPreviousPage && !hasNextPage) {
+        button.innerHTML= `<button onclick="showExpense(${previousPage})"> <  </button> ${currentPage}`;
+    }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+
+    const token = localStorage.getItem('token');
+    const decodedtoken = parseJwt(token);
+    console.log(decodedtoken);
+    const ispremiumuser = decodedtoken.ispremiumuser;
+    console.log(ispremiumuser);
+
+    if (ispremiumuser) {
+        showLeaderboard();
+        showpremiumusermessage();
+        document.getElementById('filesdownloaded').style.visibility = "hidden";  
+    } else {
+        document.getElementById('downloadexpense').style.visibility = "hidden";    
+    }
+});
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
@@ -45,9 +188,11 @@ function parseJwt(token) {
 
 function showLeaderboard() {
 
+    document.getElementById('ranks').style.visibility = "hidden";
     const input = document.getElementById('leader');
     const inputElement = document.createElement("input");
     inputElement.type = 'button';
+    inputElement.className = 'leaderboard-button';
     inputElement.value = 'Show Leaderboard';
     inputElement.id = "showleaderboard"
     inputElement.onclick = async () => {
@@ -58,10 +203,11 @@ function showLeaderboard() {
             console.log(userLeaderBoardArray);
 
             const leaderboardElem = document.getElementById('ranks');
-            leaderboardElem.innerHTML += '<h1> Leader Board </h1>'
+            leaderboardElem.style.visibility = "visible";
+            leaderboardElem.innerHTML += '<h2> Leader Board </h2>'
 
             userLeaderBoardArray.data.forEach((userDetails) => {
-                leaderboardElem.innerHTML += `<li>Name : ${userDetails.name} Total Expense : ${userDetails.totalExpense || 0}`;
+                leaderboardElem.innerHTML += `<li> Name : ${userDetails.name} Total Expense : ${userDetails.totalExpense || 0}`;
             })
         } catch (err) {
             console.log(err);
@@ -72,113 +218,35 @@ function showLeaderboard() {
 
 }
 
-
-
-let expensesPreferenceDropdown = document.getElementById('expensepreference');
-expensesPreferenceDropdown.addEventListener('change', function(){
-
-    const selectedValue = expensesPreferenceDropdown.value;
-    saveExpensepreference(selectedValue);
-
-});
-
-function saveExpensepreference(expensepref){
-
-    localStorage.setItem('expensePreference', expensepref);
-    showExpense(expensepref);
+function showpremiumusermessage() {
+    document.getElementById('rzp-btn').style.visibility = "hidden";
+    document.getElementById('prm-msg').innerHTML = "You are a Premium User";
 }
 
-function showExpense(page){
+async function download() {
 
-    const parentElem = document.getElementById('items1');
-    parentElem.innerHTML = '';
-    const token = localStorage.getItem('token');
-    const expensepref = localStorage.getItem('expensePreference');
-    // const pageSize = expensepref ? parseInt(expensepref): 5
-    const pageSize = expensepref; 
-    console.log(pageSize);
-    console.log(expensepref);
-    console.log(parseInt(expensepref))
-    // const pageSize = 2
-    
-    if(!page || page < 1 ){
-        page = 1;
-    }
+    try{
+        document.getElementById('filesdownloaded').style.visibility = "visible";
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:3000/expense/download', { headers: { "Authorization": token } })
+        
+        if (response.status === 200) {
+            console.log(response.data.prevDownloadedFiles)
 
-    axios.get(`http://localhost:3000/expense/getpageexpenses?page=${page}&pageSize=${pageSize}`, {
-        headers: { "Authorization": token } //setting the authorisation in response headers as the tokrn encrypted
-    })
-    .then((res)=>{
-       
-        const {currentPage,hasNextPage,nextPage,hasPreviousPage,previousPage,lastPage} = res.data;
-
-        res.data.allExpenses.forEach((expData)=>{
-         const expenseItem = document.createElement('div');
-         expenseItem.innerHTML = `Amount : ${expData.amount} | Description : ${expData.description} | Category : ${expData.category} `
-
-         const delButton = document.createElement('input');
-         delButton.type = "button";
-         delButton.value = "Delete";
-
-         delButton.onclick = () => {
-            const token = localStorage.getItem('token');
-            axios.delete(`http://localhost:3000/expense/delete-expense/${expData.id}`, { headers: { "Authorization": token } })
-            .then((deleteResponse) => {
-                console.log("Expense Deleted Successfully");
-                expenseItem.remove();
-             })
-            .catch((err) => {
-                document.body.innerHTML += "<h2>Something went Wrong</h2>";
-                console.log(err);
-            });
-         }
-         expenseItem.appendChild(delButton);
-         parentElem.appendChild(expenseItem);
-        });
-
-        showPagination(hasNextPage,nextPage,hasPreviousPage,previousPage);
-
-    })
-    .catch((err) => {
+            for (var i = 0; i < response.data.prevDownloadedFiles.length; i++) {
+                showprevDownloadedFilesonScreen(response.data.prevDownloadedFiles[i])
+            }
+            var a = document.createElement("a");
+            a.href = response.data.fileURL;
+            a.download;
+            a.click();
+        } else {
+            throw new Error(response.data.message)
+        }
+    }catch (err) {
         console.log(err);
-    })
+    }       
 }
-
-function showPagination(hasNextPage,nextPage,hasPreviousPage,previousPage){
-
-    const button = document.getElementById('pagination');
-    let buttonsHTML = [];
-    if(hasPreviousPage){
-        buttonsHTML.push(`<button onclick="showExpense(${previousPage})">Previous page</button>`);
-    }
-    if(hasNextPage){
-        buttonsHTML.push(`<button onclick="showExpense(${nextPage})">Next page</button>`);
-    }
-
-    button.innerHTML = buttonsHTML.join(' ')
-}
-
-
-
-
-
-window.addEventListener("DOMContentLoaded", () => {
-
-    const page = 1;
-    const token = localStorage.getItem('token');
-    const decodedtoken = parseJwt(token);
-    console.log(decodedtoken);
-    const ispremiumuser = decodedtoken.ispremiumuser;
-    console.log(ispremiumuser);
-
-    if (ispremiumuser) {
-        showLeaderboard();
-        showpremiumusermessage();   
-    }
-});
-
-
-
 
 function showprevDownloadedFilesonScreen(obj) {
 
@@ -187,102 +255,58 @@ function showprevDownloadedFilesonScreen(obj) {
     childElem.textContent = obj.fileName;
     childElem.style.cursor = 'pointer';
     childElem.onclick = () => {
-
         const childElem = document.createElement('a');
         childElem.href = obj.fileURL;
         childElem.download;
         childElem.click();
     }
     parentElem.appendChild(childElem);
-
 }
-
-function download() {
-    const token = localStorage.getItem('token');
-    axios.get('http://localhost:3000/expense/download', { headers: { "Authorization": token } })
-        .then((response) => {
-            if (response.status === 200) {
-                console.log(response.data.prevDownloadedFiles)
-
-                for (var i = 0; i < response.data.prevDownloadedFiles.length; i++) {
-                    showprevDownloadedFilesonScreen(response.data.prevDownloadedFiles[i])
-                }
-                //the bcakend is essentially sending a download link
-                //  which if we open in browser, the file would download
-
-            } else {
-                throw new Error(response.data.message)
-            }
-
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
-
-// function showExpenseOnScreen(obj) {
-
-//     const parentElem = document.getElementById('items');
-//     const childElem = document.createElement('li');
-//     childElem.textContent = ' ' + 'Description :' + obj.description + ' | ' + 'Category :' + obj.category + ' | ' + 'Amount :' + obj.amount;
-
-
-//     const deleteButton = document.createElement('input');
-//     deleteButton.className = "del-btn";
-//     deleteButton.type = 'button';
-//     deleteButton.value = 'Delete';
-//     deleteButton.onclick = () => {
-
-//         const token = localStorage.getItem('token');
-//         parentElem.removeChild(childElem);
-
-//         axios.delete(`http://localhost:3000/expense/delete-expense/${obj.id}`, { headers: { "Authorization": token } })
-//             .then((response) => { })
-//             .catch((err) => {
-//                 document.body.innerHTML += "<h2>Something went Wrong</h2>";
-//                 console.log(err);
-//             })
-
-//     }
-//     childElem.appendChild(deleteButton);
-//     parentElem.appendChild(childElem);
-
-// }
-
-
 
 document.getElementById('rzp-btn').onclick = async function (event) {
 
-    const token = localStorage.getItem('token');
-    const response = await axios.get("http://localhost:3000/purchase/premium-membership", { headers: { "Authorization": token } })
-    const options = {
-        "key": response.data.key_id,
-        "order_id": response.data.order.id,
-        "handler": async function (response) {
-            const res = await axios.post("http://localhost:3000/purchase/updatetransactionstatus", {
-                order_id: options.order_id,
-                payment_id: response.razorpay_payment_id
-            }, { headers: { "Authorization": token } });
-            console.log(res.data);
-            localStorage.setItem('token', res.data.token);
-            alert("You are a Premuim user now!");
-            showpremiumusermessage();
-            showLeaderboard();
+    try{
+        const token = localStorage.getItem('token');
+        const response = await axios.get("http://localhost:3000/purchase/premium-membership", { headers: { "Authorization": token } })
+        const options = {
+            "key": response.data.key_id,
+            "order_id": response.data.order.id,
+            "handler": async function (response) {
+                try{
+                    const res = await axios.post("http://localhost:3000/purchase/updatetransactionstatus", {
+                        order_id: options.order_id,
+                        payment_id: response.razorpay_payment_id
+                    }, { headers: { "Authorization": token } });
+                    console.log(res.data);
+                    localStorage.setItem('token', res.data.token);
+                    alert("You are a Premuim user now!");
+                    showpremiumusermessage();
+                    showLeaderboard();
+                }catch (err){
+                    console.log(err);
+                } 
+            }
+        };
+        const rzp1 = new Razorpay(options);
+        rzp1.open();
+        event.preventDefault();
+    
+        rzp1.on('payment.failed', async function (response) {
+            try{
+                const res = await axios.post("http://localhost:3000/purchase/updatetransactionstatus", {
+                    order_id: options.order_id,
+                    payment_id: response.razorpay_payment_id // if transaction is failed no payment key is generated
+                }, { headers: { "Authorization": token } });
+                alert('Transaction FAILED!');
+            }catch (err){
+                console.log(err);
+            }    
+        });
 
-        }
-    };
-    const rzp1 = new Razorpay(options);
-    rzp1.open();
-    event.preventDefault();
-
-    rzp1.on('payment.failed', async function (response) {
-        await axios.post("http://localhost:3000/purchase/updatetransactionstatus", {
-            order_id: options.order_id,
-            payment_id: response.razorpay_payment_id // if transaction is failed no payment key is generated
-        }, { headers: { "Authorization": token } })
-
-        alert('Transaction FAILED!')
-    });
+    }catch (err){
+        console.log(err);
+    }  
+    
 }
 
 

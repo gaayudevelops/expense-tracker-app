@@ -8,7 +8,7 @@ const userauthentication = require('../middleware/auth')
 
 const router = express.Router();
 
-// Get expenses => GET
+// //Get expenses => GET
 // router.get('/get-expenses', userauthentication.authenticate, expenseController.getExpenses);
 
 // Add expense => POST

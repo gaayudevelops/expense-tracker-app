@@ -1,0 +1,468 @@
+/* Laptop */
+
+@media only screen and (min-width:412px){
+
+    body{
+        padding:0;
+        margin: 0;
+        font-family: sans-serif;
+        background-color:rgb(175, 205, 224);
+       
+    }
+
+    .header{
+        text-align: center; 
+        background-color:#2d82bb;
+        padding:20px;
+        margin:0;
+        color:#fff;
+        font-size: 15px;
+    }
+
+    .leaderboard-button{
+        color:#246192;
+        width:10%;
+        font-size: 18px;
+        margin: 2rem 0 0 11rem;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+
+    }
+
+    .expense-detail-form{
+        width:100rem;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        background: white;
+        padding:20px;
+        margin:1% auto 0;
+        /* text-align: center; */
+        
+    }
+
+    .expense-detail-form h2{
+        color:#3489aa;
+        margin-bottom: 30px; 
+        text-align: center;
+    }
+    
+    .expense-detail-form label{
+        margin-left: 5px;
+        text-align: left;
+    }
+    
+    .expnse-btn{
+        color:#fff;
+        width:7%;
+        padding:10px;
+        border-radius:5px;
+        font-size: 15px;
+        margin:10px 25px;
+        border:none;
+        outline:none;
+        cursor:pointer;
+        background-color: #1c8adb;
+        margin-bottom:25px;
+    
+    }
+    .expnse-btn:hover,
+    .expnse-btn:active {
+      background-color: rgb(8, 123, 168);
+      color: #ffffff;
+    }
+
+    .paginating-expenses{
+        width:65rem;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        background: white;
+        padding:20px;
+        margin:3% auto 0 12.7rem;
+        /* text-align: center; */
+        height:auto;
+        float: left;
+        
+    }
+
+    .paginating-expenses h2{
+        color:#3489aa;
+        margin-bottom: 25px; 
+        text-align: center;
+    }
+    .paginating-expenses label{
+        margin-left: 22rem;
+        
+    }
+
+    .expense-table{
+        background-color: #000000;
+        width:92%;
+        margin:25px 5px 0 35px
+    }
+    .expense-table-header{
+        background-color:#3d86b6;
+    }
+    .expense-table-header-value{
+        color:#fff;
+        padding:10px;
+        font-family: sans-serif;
+    }
+    .expense-table-data-value{
+        padding:10px;
+        font-family: sans-serif;
+        background-color:#a2d1f0;
+        text-align: center;
+        margin-bottom: 50px;
+        height: 3rem;
+    }
+
+    .page-buttons{
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .page-buttons button{
+        color:#246192;
+        font-size: 17px;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .ranks{
+        width:25rem;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        background: white;
+        padding:20px;
+        margin: 3% 12.8rem 0 0;
+        font-size: 17px;
+        float: right;
+
+    }
+    .ranks h2{
+        color:#3489aa;
+        margin-bottom: 25px; 
+        text-align: center;
+    }
+    
+    .ranks li{
+        padding:15px;
+        font-size: 17px;
+        
+    }
+    
+    .premium-btn{
+        color:#246192;
+        width:10%;
+        font-size: 20px;
+        margin: 2rem 0 0 105rem;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .dwnload-btn{
+        color:#246192;
+        width:20%;
+        font-size: 15px;
+        margin:0 0 0 50rem;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+    }
+    
+    .premium-msg{
+        color:#246192;
+        width:10%;
+        font-size: 18px;
+        margin:2rem 0 0 103rem;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+    }
+    .downloadfiles{
+        width:65rem;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        background: white;
+        padding:20px;
+        margin:3% auto 0 12.7rem;
+        /* text-align: center; */
+        height:auto;
+        float: left;
+    }
+    .downloadfiles h2{
+        color:#3489aa;
+        margin-bottom: 25px; 
+        text-align: center;
+    }
+
+    .downloadfiles li{
+        padding:15px;
+        font-size: 17px;
+    }
+    
+    .del-btn {
+        
+        padding: 5px;
+        margin: 1rem ;
+        width:40%;
+        text-decoration: none;
+        font-weight: bold;
+        font: inherit;
+        font-size: 15px;
+        border: 2px solid #028d8d;
+        color: white;
+        background: #f04d4d;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    
+    .del-btn:hover,
+    .del-btn:active {
+      background-color: rgb(228, 38, 38);
+      color: #000000;
+    }
+    
+    .input-box{
+        padding:10px;
+        margin:10px 2px;
+        width:20%;
+        border: 1px solid #999;
+        border-radius: 5px;
+    
+    }  
+}
+
+/* Mobile */
+
+@media only screen and (max-width:412px){
+
+    body{
+        padding:0;
+        margin: 0;
+        font-family: sans-serif;
+        background-color:rgb(175, 205, 224);
+       
+    }
+
+    .header{
+        text-align: center; 
+        background-color:#2d82bb;
+        padding:20px;
+        color:#fff;
+        font-size: 15px;
+    }
+
+    .leaderboard-button{
+        color:#246192;
+        width:50%;
+        font-size: 17px;
+        margin: 0;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+
+    }
+
+    .expense-detail-form{
+        width:15rem;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        background: white;
+        padding:20px;
+        margin:0 auto 0 4rem;
+        /* text-align: center; */
+        
+    }
+
+    .expense-detail-form h2{
+        color:#3489aa;
+        font-size: 18px;
+        margin-bottom: 30px; 
+        text-align: left;
+    }
+    
+    .expense-detail-form label{
+        margin-left: 5px;
+        font-size: 15px;
+        text-align: left;
+    }
+    
+    .expnse-btn{
+        color:#fff;
+        width:30%;
+        padding:10px;
+        border-radius:5px;
+        font-size: 15px;
+        margin:10px 5px;
+        border:none;
+        outline:none;
+        cursor:pointer;
+        background-color: #1c8adb;
+        margin-bottom:25px;
+    
+    }
+    .expnse-btn:hover,
+    .expnse-btn:active {
+      background-color: rgb(8, 123, 168);
+      color: #ffffff;
+    }
+
+    .paginating-expenses{
+        width:15rem;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        background: white;
+        padding:20px;
+        margin:10% auto 0 4rem;
+          
+    }
+
+    .paginating-expenses h2{
+        color:#3489aa;
+        font-size: 18px;
+        text-align: left;
+    }
+    .paginating-expenses label{
+        margin-left: 10px;
+        font-size: 15px;
+        
+    }
+
+    .expense-table{
+        background-color: #000000;
+        margin:25px 5px 0 0
+    }
+    .expense-table-header{
+        background-color:#3d86b6;
+    }
+    .expense-table-header-value{
+        color:#fff;
+        padding:2px;
+        font-family: sans-serif;
+        font-size: 10px;
+    }
+    .expense-table-data-value{
+        padding:2px;
+        font-family: sans-serif;
+        font-size: 10px;
+        background-color:#a2d1f0;
+        text-align: center;
+        margin-bottom: 50px;
+        height: 3rem;
+    }
+
+    .page-buttons{
+        margin-top: 20px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .page-buttons button{
+        color:#246192;
+        font-size: 15px;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .ranks{
+        width:16rem;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        background: rgb(255, 255, 255);
+        padding:10px;
+        margin: 10% 0 0 4rem ;
+        float :left;
+
+    }
+    .ranks h2{
+        color:#3489aa;
+        font-size: 18px;
+        margin: 5% 0 15px 20px; 
+        text-align: center;
+    }
+    
+    .ranks li{
+        padding:15px;
+        font-size: 15px;
+        
+    }
+    
+    .premium-btn{
+        color:#246192;
+        width:50%;
+        font-size: 15px;
+        margin: 1rem 0 0 15rem;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .dwnload-btn{
+        color:#246192;
+        width:50%;
+        font-size: 15px;
+        margin:0 0 0 1rem;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+    }
+    
+    .premium-msg{
+        color:#246192;
+        width:50%;
+        font-size: 15px;
+        margin:1rem 0 1rem 15rem;
+        border:none ; 
+        cursor:pointer;
+        background-color: rgba(0, 0, 0, 0);
+    }
+    .downloadfiles{
+        width:14.8rem;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        background: white;
+        padding:20px;
+        margin:10% auto 0 4rem;
+        /* text-align: center; */
+        height:auto;
+        float: left;
+    }
+    .downloadfiles h2{
+        color:#3489aa;
+        font-size: 18px;
+        margin-bottom: 25px; 
+        text-align: center;
+    }
+
+    .downloadfiles li{
+        padding:15px;
+        font-size: 15px;
+    }
+    
+    .del-btn {
+        padding: 2px;
+        width:60%;
+        text-decoration: none;
+        font-weight: bold;
+        font: inherit;
+        font-size: 10px;
+        border: 2px solid #028d8d;
+        color: white;
+        background: #f04d4d;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    
+    .del-btn:hover,
+    .del-btn:active {
+      background-color: rgb(228, 38, 38);
+      color: #000000;
+    }
+    
+    .input-box{
+        padding:10px;
+        margin:10px 2px;
+        width:20%;
+        border: 1px solid #999;
+        border-radius: 5px;
+    
+    }
+    
+}

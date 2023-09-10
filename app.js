@@ -1,13 +1,23 @@
 
 const express = require('express');
 
+const fs = require('fs');
+
+const path = require ('path');
+
 const sequelize= require('./util/database');
 
 const cors = require('cors');
 
 const dotenv = require('dotenv');
 
+dotenv.config();
+
 const app = express();
+
+const helmet = require('helmet');
+
+const morgan = require('morgan');
 
 app.use(cors());
 
@@ -31,7 +41,14 @@ const Forgotpassword = require('./models/forgotpassword');
 
 const Downloadedfiles = require('./models/downloadedfiles');
 
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, 'access.log'),
+    { flags : 'a'}
+);
+
 app.use(express.json());
+app.use(helmet());
+app.use(morgan('combined',{stream: accessLogStream}));
 
 app.use('/user', userRoutes);
 
@@ -42,6 +59,7 @@ app.use('/purchase', purchaseRoutes);
 app.use('/premium', premiumRoutes);
 
 app.use('/password', resetPasswordRoutes);
+
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
@@ -56,5 +74,5 @@ User.hasMany(Downloadedfiles);
 Downloadedfiles.belongsTo(User);
 
 sequelize.sync()
-.then(app.listen(3000))
+.then(app.listen(process.env.PORT || 3000))
 .catch(err=> console.log(err));
